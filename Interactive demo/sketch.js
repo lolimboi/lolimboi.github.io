@@ -8,6 +8,7 @@
 
 let x, y, radius, gravity, dy, dx, c, rx, ry, rwidth, rheight, rfill;
 let hit = false;
+let textx = 100;
 let textShowing = 0;
 let colours = [0, 127.5, 255];
 let points = 0;
@@ -35,6 +36,7 @@ function setup() {
   rfill = 0;
 }
 
+//adds all functions into draw
 function draw() {
   background(220);
   
@@ -51,6 +53,8 @@ function draw() {
   textBox();
 }
 
+
+//makes ball fall.
 function moveBall(){
   if (mouseX > x && mouseX < x + radius && mouseY > y && mouseY < y + radius && mouseIsPressed) {
     button = true;
@@ -59,7 +63,7 @@ function moveBall(){
     button = false;
   }
   
-  
+  //ball follows mouse if clicked and held.
   if (button) {
     x = mouseX - radius/3;
     y = mouseY - radius/3;
@@ -67,27 +71,33 @@ function moveBall(){
     dx = mouseX - pmouseX;
   } 
   
+
+  //ball border for right
   if (x > width - radius ){
     x = width - radius;
     dx = -dx*0.5;
   }
   
+  //ball border for left
   if (x < 0 + radius){
     x = 0 + radius;
     dx = -dx*0.5;
   }
   
+  //ball border for botttom
   if (y > height - radius){
     y = height - radius;
     dy = -dy*0.7;
      
   }
 
+  //ball border for top
   if (y < 0 + radius){
     y = 0 + radius;
     dy = -dy*0.7;
   }
    
+  //makes ball move with physics
   else{
     y += dy;
     x += dx;
@@ -96,6 +106,8 @@ function moveBall(){
   }
 }
 
+
+//changes colour with  z, x, and c keys. removes text with esc.
 function keyPressed() {
   
   if (keyCode === 90){
@@ -109,15 +121,22 @@ function keyPressed() {
   else if (keyCode === 67){
     c = 255;
   }
+
+  else if (keyCode === 27){
+    textShowing = 220;
+    textx =  width + 50;
+  }
 }
 
-
+//displays the target
 function movingTarget(){
   noStroke();
   fill(rfill);
   rect(rx, ry, rwidth, rheight);
   hit = collideRectCircle(rx, ry, rwidth, rheight, x, y, radius);
 
+
+  //will randomly appear around the "arena" and will increase points if hit. When hit, will change colour. will only be registered as a point if the colour of target and ball are the same.
   if (!button){
     if (c === rfill){
       if (hit){
@@ -144,15 +163,15 @@ function movingTarget(){
   }
 }
 
+
+//displays ruleset. Had to use many lines because textWrap is nonexistent.
 function textBox(){
   textSize(32);
   textAlign(LEFT);
-  push();
   fill(textShowing);
-  pop();
-  text(ruleset, 100, 30);
-  text(ruleset1, 100, 70);
-  text(ruleset2, 100, 110);
-  text(ruleset3, 100, 150);
-  text(ruleset4, 100, 190);
+  text(ruleset, textx, 30);
+  text(ruleset1, textx, 70);
+  text(ruleset2, textx, 110);
+  text(ruleset3, textx, 150);
+  text(ruleset4, textx, 190);
 }
