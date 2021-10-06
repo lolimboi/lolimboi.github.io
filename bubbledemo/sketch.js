@@ -21,18 +21,18 @@ function draw() {
 }
 
 function mousePressed(){
-  for (let i = 0, i < 4, i++;){
-  spawnBubble();}
+  spawnBubble();
 }
 
 function spawnBubble(){
   let bubble = {
-    x: random(width),
+    x: random(100),
     y: height,
     radius: random(100),
     dx: 0,
     dy: -5,
-    theColour:color(random(255), random(255), random(255))
+    theColour:color(random(255), random(255), random(255)),
+    theTime: random(1000),
   };
   theBubbles.push(bubble);
 }
@@ -41,7 +41,8 @@ function bubbleUp(){
   for (let bubble of theBubbles){
     bubble.y += bubble.dy;
 
-    bubble.x += random(-10, 10);
+    bubble.x += noise(bubble.theTime) * width;
+    theTime += 0.01;
   }
 }
 
