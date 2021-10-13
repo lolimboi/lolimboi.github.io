@@ -5,8 +5,16 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let gridSize = 500;
+let gridSize = 100;
 let grid;
+let distance = 6;
+
+let mySound;
+function preload() {
+  soundFormats('mp3');
+  mySound = loadSound('assets/boop');
+}
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -26,10 +34,28 @@ function mousePressed(){
   let cellY = Math.floor(mouseY/cellHeight);
   if(grid[cellY][cellX] === 1){
     grid[cellY][cellX] = 0;
+
+    grid[cellY+distance][cellX] = 0;
+
+    grid[cellY-distance][cellX] = 0;
+    
+    grid[cellY][cellX+distance] = 0;
+    
+    grid[cellY][cellX-distance] = 0;
   }
   else if(grid[cellY][cellX] === 0){
     grid[cellY][cellX] = 1;
+    
+    grid[cellY+distance][cellX] = 1;
+    
+    grid[cellY-distance][cellX] = 1;
+    
+    grid[cellY][cellX+distance] = 1;
+    
+    grid[cellY][cellX-distance] = 1;
   }
+
+  mySound.play();
 
 }
 
