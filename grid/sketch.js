@@ -7,7 +7,8 @@
 
 let gridSize = 100;
 let grid;
-let distance = 6;
+let distance = 1;
+
 
 let mySound;
 function preload() {
@@ -19,11 +20,24 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   grid = createRandom2DArray(gridSize, gridSize);
+
 }
 
 function draw() {
   background(220);
   displayGrid();
+}
+
+function keyPressed(){
+  if(key === "e"){
+    grid = createEmpty2DArray(gridSize, gridSize, 0);
+  }
+  if(key === "b"){
+    grid = createEmpty2DArray(gridSize, gridSize, 1);
+  }
+  if(key === "r"){
+    grid = createRandom2DArray(gridSize, gridSize);
+  }
 }
 
 function mousePressed(){
@@ -32,31 +46,30 @@ function mousePressed(){
 
   let cellX = Math.floor(mouseX/cellWidth);
   let cellY = Math.floor(mouseY/cellHeight);
-  if(grid[cellY][cellX] === 1){
-    grid[cellY][cellX] = 0;
-
-    grid[cellY+distance][cellX] = 0;
-
-    grid[cellY-distance][cellX] = 0;
+ 
+  swap(cellY, cellX);
     
-    grid[cellY][cellX+distance] = 0;
+  swap(cellY+distance, cellX);
     
-    grid[cellY][cellX-distance] = 0;
-  }
-  else if(grid[cellY][cellX] === 0){
-    grid[cellY][cellX] = 1;
+  swap(cellY-distance, cellX);
     
-    grid[cellY+distance][cellX] = 1;
+  swap(cellY, cellX+distance);
     
-    grid[cellY-distance][cellX] = 1;
-    
-    grid[cellY][cellX+distance] = 1;
-    
-    grid[cellY][cellX-distance] = 1;
-  }
+  swap(cellY, cellX-distance);
 
   mySound.play();
 
+}
+
+function swap(x, y){
+  if (x >= 0 && x < gridSize && y >= 0 && y < gridSize){
+    if(grid[y][x] === 0){
+      grid[y][x] === 1;
+    }
+    else if(grid[y][x] === 1){
+      grid[y][x] === 0;
+    }
+  }
 }
 
 function displayGrid(){
@@ -69,7 +82,7 @@ function displayGrid(){
         fill(0);
       }
       else if(grid[y][x] === 1){
-        fill(255);
+        fill(random(255), random(255), random(255));
       }
       noStroke();
       rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
@@ -78,12 +91,12 @@ function displayGrid(){
 }
 
 
-function createEmpty2DArray(rows, columns){
+function createEmpty2DArray(rows, columns, numToFill = 0){
   let grid = [];
   for (let y=0; y<rows; y++){
     grid.push([]);
     for(let x=0; x<columns; x++){
-      grid[y].push(0);
+      grid[y].push(numToFill);
     }
   }
   return grid;
