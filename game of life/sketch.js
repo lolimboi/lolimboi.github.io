@@ -9,6 +9,10 @@ let gridSize = 100;
 let grid;
 let cellWidth, cellHeight;
 let autoPlay = false;
+let cellGrowth;
+
+function preload(){let cellGrowth = loadJSON("assets/infinitecellgrowth.json");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -77,6 +81,9 @@ function keyPressed(){
   }
   if(key === "m"){
     autoPlay = !autoPlay;
+  }
+  if (key === "i"){
+    grid = cellGrowth;
   }
 }
 
