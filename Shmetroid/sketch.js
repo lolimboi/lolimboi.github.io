@@ -27,9 +27,11 @@ function setup() {
 
 function draw() {
   background(220);
+  frameRate(15);
  
 
   displayGrid();
+  gravity();
 }
 
 function createEmpty2DArray(rows, cols){
@@ -62,6 +64,10 @@ function displayGrid(){
   }
 }
 
+function gravity(){
+  playerMove(playerX, playerY+1);
+}
+
 function mousePressed(){
   let cellX = Math.floor(mouseX/cellWidth);
   let cellY = Math.floor(mouseY/cellHeight);
@@ -86,9 +92,7 @@ function keyPressed(){
   }
   if (key === "w"){
     playerMove(playerX, playerY-1);
-  }
-  if (key === "s"){
-    playerMove(playerX, playerY+1);
+    playerMove(playerX, playerY-1);
   }
   if (key === "a"){
     playerMove(playerX-1, playerY);
