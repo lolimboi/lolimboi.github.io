@@ -11,6 +11,7 @@ let cellWidth, cellHeight;
 let level;
 let playerX = 0;
 let playerY = 0;
+let highJump, sixShooter, dashPack;
 
 function preload(){
   level = loadJSON("assets/level1.json");
@@ -23,6 +24,9 @@ function setup() {
   cellHeight = height/gridSize;
 
   grid[playerY][playerX] = 9;
+  highJump = false;
+  sixShooter = false;
+  dashPack = false;
 }
 
 function draw() {
@@ -32,6 +36,8 @@ function draw() {
 
   displayGrid();
   gravity();
+  movement();
+  
 }
 
 function createEmpty2DArray(rows, cols){
@@ -44,7 +50,6 @@ function createEmpty2DArray(rows, cols){
   }
   return board;
 }
-
 
 function displayGrid(){
   for(let y=0; y<gridSize; y++){
@@ -87,15 +92,23 @@ function keyPressed(){
   if (key === "r"){
     grid = createRandom2DArray(gridSize, gridSize);
   }
-  if (key === "d"){
-    playerMove(playerX+1, playerY);
-  }
   if (key === "w"){
     playerMove(playerX, playerY-1);
-    playerMove(playerX, playerY-1);
+    if (highJump === true){
+      playerMove(playerX, playerY-1);
+    }
   }
-  if (key === "a"){
+  if (key === LEFT_ARROW){
+
+  }
+}
+
+function movement(){
+  if (keyIsDown(65)){
     playerMove(playerX-1, playerY);
+  }
+  if (keyIsDown(68)){
+    playerMove(playerX+1, playerY);
   }
 }
 
@@ -105,9 +118,11 @@ function createRandom2DArray(rows, cols){
     board.push([]);
     for(let x = 0; x<cols; x++){
       if (random(100) < 50){
-        board[y].push(0);}
+        board[y].push(0);
+      }
       else {
-        board[y].push(1);}
+        board[y].push(1);
+      }
     }
   }
   return board;
@@ -121,5 +136,7 @@ function playerMove(newX, newY){
       grid[playerY][playerX] = 0;
       playerX = newX;
       playerY = newY;
-      grid[playerY][playerX] = 9;}}
+      grid[playerY][playerX] = 9;
+    }
+  }
 }
