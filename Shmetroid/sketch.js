@@ -85,6 +85,15 @@ function mousePressed(){
   }
 }
 
+function movement(){
+  if (keyIsDown(65)){
+    playerMove(playerX-1, playerY);
+  }
+  if (keyIsDown(68)){
+    playerMove(playerX+1, playerY);
+  }
+}
+
 function keyPressed(){
   if (key === "e"){
     grid = createEmpty2DArray(gridSize, gridSize);
@@ -94,22 +103,21 @@ function keyPressed(){
   }
   if (key === "w"){
     playerMove(playerX, playerY-1);
-    if (highJump === true){
-      playerMove(playerX, playerY-1);
-    }
+    playerMove(playerX, playerY-1);
+  }
+  if (highJump === true){
+    playerMove(playerX, playerY-1);
+  }
+  if (key === "d"){
+    playerMove(playerX+1, playerY);
+    console.log(playerMove);
+  }
+  if(key === "a"){
+    playerMove(playerX-1, playerY);
   }
   if (key === LEFT_ARROW){
 
-  }
-}
-
-function movement(){
-  if (keyIsDown(65)){
-    playerMove(playerX-1, playerY);
-  }
-  if (keyIsDown(68)){
-    playerMove(playerX+1, playerY);
-  }
+    }
 }
 
 function createRandom2DArray(rows, cols){
