@@ -12,6 +12,7 @@ let level;
 let playerX = 0;
 let playerY = 0;
 let highJump, sixShooter, dashPack;
+let bulletSpotX, bulletSpotY;
 
 function preload(){
   level = loadJSON("assets/level1.json");
@@ -33,8 +34,9 @@ function draw() {
   background(220);
   frameRate(15);
  
-
+  
   displayGrid();
+
   gravity();
   movement();
   
@@ -60,6 +62,9 @@ function displayGrid(){
       if (grid[y][x] === 1){
         fill("black");
       }
+      if (grid[y][x] === 4){
+        fill("blue");
+      }
       if(grid[y][x] === 9){
         fill("red");
       }
@@ -71,6 +76,12 @@ function displayGrid(){
 
 function gravity(){
   playerMove(playerX, playerY+1);
+}
+
+function bulletMovement(){
+  if (bulletSpotX < playerX ){
+    bulletSpotX -= 1;
+  }
 }
 
 function mousePressed(){
@@ -91,6 +102,12 @@ function movement(){
   }
   if (keyIsDown(68)){
     playerMove(playerX+1, playerY);
+  }
+  if (keyIsDown(LEFT_ARROW)){
+    bulletSpotX = playerX-1;
+    bulletSpotY = playerY;
+    grid[bulletSpotY][bulletSpotX] = 4;
+    bulletMove(bulletSpotX-1, bulletSpotY);
   }
 }
 
@@ -115,9 +132,7 @@ function keyPressed(){
   if(key === "a"){
     playerMove(playerX-1, playerY);
   }
-  if (key === LEFT_ARROW){
-
-    }
+  
 }
 
 function createRandom2DArray(rows, cols){
@@ -145,6 +160,19 @@ function playerMove(newX, newY){
       playerX = newX;
       playerY = newY;
       grid[playerY][playerX] = 9;
+    }
+  }
+}
+
+function bulletMove(newX, newY){
+  if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize){
+
+    if (grid[newY][newX] === 0){
+
+      grid[bulletSpotY][bulletSpotX] = 0;
+      bulletSpotX = newX;
+      bulletSpotY = newY;
+      grid[bulletSpotY][bulletSpotX] = 4;
     }
   }
 }
