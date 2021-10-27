@@ -9,9 +9,6 @@ let gridSize = 20;
 let grid;
 let cellWidth, cellHeight;
 let level;
-let playerX = 0;
-let playerY = 0;
-let playerHealth;
 let hurt, lastTimeSwitched;
 
 function preload(){
@@ -61,10 +58,13 @@ function displayGrid(){
         fill("black");
       }
       if(grid[y][x] === 9){
-        fill("red");
-      }
-      if(grid[y][x] === 2){
-        fill("purple");
+        if (hurt){
+          fill("purple");
+        }
+        else{
+          fill("red");
+        }
+        
       }
       noStroke();
       rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
@@ -91,26 +91,6 @@ function keyPressed(){
   if (key === "r"){
     grid = createRandom2DArray(gridSize, gridSize);
   }
-  if (key === "d"){
-    playerMove(playerX+1, playerY);
-  }
-  if (key === "w"){
-    playerMove(playerX, playerY-1);
-  }
-  if (key === "s"){
-    playerMove(playerX, playerY+1);
-  }
-  if (key === "a"){
-    playerMove(playerX-1, playerY);
-  }
-  if (key === "h"){
-    if(hurt === false){
-      playerHealth -= 10;
-      hurt = true;
-    }
-    console.log(playerHealth);
-    
-  }
 }
 
 function createRandom2DArray(rows, cols){
@@ -129,19 +109,6 @@ function createRandom2DArray(rows, cols){
   return board;
 }
 
-function playerMove(newX, newY){
-  if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize){
-
-    if (grid[newY][newX] === 0){
-
-      grid[playerY][playerX] = 0;
-      playerX = newX;
-      playerY = newY;
-      grid[playerY][playerX] = 9;
-    }
-  }
-}
-
 function death(){
   if (playerHealth <= 0){
     grid[playerY][playerX] = 0;
@@ -156,5 +123,46 @@ function harm(){
       hurt = !hurt;
     }
     console.log(millis());
+  }
+}
+class Player{
+  constructor(playerX, playerY, playerHealth){
+    this.playerX = playerX;
+    this.playerY = playerY;
+    this.playerHealth = playerHealth;
+  }
+  playerMove(newX, newY){
+    if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize){
+  
+      if (grid[newY][newX] === 0){
+  
+        grid[this.playerY][this.playerX] = 0;
+        this.playerX = newX;
+        this.playerY = newY;
+        grid[this.playerY][this.playerX] = 9;
+      }
+    }
+  }
+  keyPressed(){
+    if (key === "d"){
+      this.playerMove(this.playerX+1, this.playerY);
+    }
+    if (key === "w"){
+      this.playerMove(this.playerX, this.playerY-1);
+    }
+    if (key === "s"){
+      this.playerMove(this.playerX, this.playerY+1);
+    }
+    if (key === "a"){
+      this.playerMove(this.playerX-1, this.playerY);
+    }
+    if (key === "h"){
+      if(hurt === false){
+        this.playerHealth -= 10;
+        hurt = true;
+      }
+      console.log(this.playerHealth);
+      
+    }
   }
 }
