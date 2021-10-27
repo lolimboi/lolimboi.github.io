@@ -78,11 +78,9 @@ function gravity(){
   playerMove(playerX, playerY+1);
 }
 
-function bulletMovement(){
-  if (bulletSpotX < playerX ){
-    bulletSpotX -= 1;
-  }
-}
+
+  
+
 
 function mousePressed(){
   let cellX = Math.floor(mouseX/cellWidth);
@@ -103,12 +101,6 @@ function movement(){
   if (keyIsDown(68)){
     playerMove(playerX+1, playerY);
   }
-  if (keyIsDown(LEFT_ARROW)){
-    bulletSpotX = playerX-1;
-    bulletSpotY = playerY;
-    grid[bulletSpotY][bulletSpotX] = 4;
-    bulletMove(bulletSpotX-1, bulletSpotY);
-  }
 }
 
 function keyPressed(){
@@ -127,12 +119,18 @@ function keyPressed(){
   }
   if (key === "d"){
     playerMove(playerX+1, playerY);
-    console.log(playerMove);
   }
   if(key === "a"){
     playerMove(playerX-1, playerY);
   }
-  
+  if (key === "g"){
+    bulletSpotX = playerX-1;
+    bulletSpotY = playerY;
+    grid[bulletSpotY][bulletSpotX] = 4;
+    while(grid[bulletSpotX-1][bulletSpotY] !== 1){
+      bulletSpotX -=1;
+    }
+  }
 }
 
 function createRandom2DArray(rows, cols){
