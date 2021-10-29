@@ -10,6 +10,7 @@ let grid;
 let cellWidth, cellHeight;
 let level;
 let hurt, lastTimeSwitched;
+let player1; 
 
 function preload(){
   level = loadJSON("assets/level1.json");
@@ -20,19 +21,22 @@ function setup() {
   grid = level;
   cellWidth = width/gridSize;
   cellHeight = height/gridSize;
-
-  grid[playerY][playerX] = 9;
-  playerHealth = 100;
   hurt = false;
   lastTimeSwitched = 0;
+  player1 = new Player(0, 0, 100);
 }
 
 function draw() {
   background(220);
+  frameRate(20);
  
 
   displayGrid();
-  death();
+
+  player1.playerMove();
+  player1.movement();
+  player1.death();
+  player1.shoot();
   harm();
 }
 
@@ -63,8 +67,10 @@ function displayGrid(){
         }
         else{
           fill("red");
-        }
-        
+        }  
+      }
+      if(grid[y][x] === 2){
+        fill("blue");
       }
       noStroke();
       rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
@@ -109,12 +115,6 @@ function createRandom2DArray(rows, cols){
   return board;
 }
 
-function death(){
-  if (playerHealth <= 0){
-    grid[playerY][playerX] = 0;
-  }
-}
-
 function harm(){
 
   if(hurt){
@@ -143,26 +143,77 @@ class Player{
       }
     }
   }
-  keyPressed(){
-    if (key === "d"){
+  movement(){
+    if (keyIsDown(68)){
       this.playerMove(this.playerX+1, this.playerY);
     }
-    if (key === "w"){
+    if (keyIsDown(87)){
       this.playerMove(this.playerX, this.playerY-1);
     }
-    if (key === "s"){
+    if (keyIsDown(83)){
       this.playerMove(this.playerX, this.playerY+1);
     }
-    if (key === "a"){
+    if (keyIsDown(65)){
       this.playerMove(this.playerX-1, this.playerY);
     }
-    if (key === "h"){
+    if (keyIsDown(72)){
       if(hurt === false){
         this.playerHealth -= 10;
         hurt = true;
       }
       console.log(this.playerHealth);
       
+    }
+  }
+  death(){
+    if (this.playerHealth <= 0){
+      grid[this.playerY][this.playerX] = 0;
+    }
+  }
+  shoot(){
+    if(keyPressed){
+      if(key === "j"){
+        grid[this.playerY][this.playerX-1] = 2;
+        console.log("left");
+      }
+    }
+  }
+}
+
+class Bullet{
+  constructor(bulletX, bulletY, radius, dx, dy, image){
+    this.bulletX = bulletX;
+    this.bulletY = bulletY;
+    this.radius = radius;
+    this.dx = dx;
+    this.dy = dy;
+    this.image = image;
+  }
+  displayBullet(){
+    grid[this.bulletY][this.bulletX] = 2;
+  }
+  moveLeft(){
+    this.bulletX -= this.dx;
+  }
+  moveRight(){
+    this.bulletY += this.dx;
+  }
+  moveUp(){
+    this.bulletY -= this.dy;
+  }
+  moveDown(){
+    this.bulletY += this.dy;
+  }
+  bulletMove(newX, newY){
+    if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize){
+  
+      if (grid[newY][newX] === 0){
+  
+        grid[this.bulletY][this.bulletX] = 0;
+        this.bulletX = newX;
+        this.bulletY = newY;
+        grid[this.bulletY][this.bulletX] = 2;
+      }
     }
   }
 }
