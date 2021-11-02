@@ -28,8 +28,18 @@ function draw() {
 }
 
 function mousePressed(){
-  let theBall = new Ball(mouseX, mouseY);
-  ballArray.push(theBall);
+  for (let i=ballArray.length-1; i>= 0; i--){
+    if(ballArray[i].isPointInBall(mouseX, mouseY)){
+      ballArray.splice(i, 1);
+    }
+  }
+}
+
+function keyPressed(){
+  if(key === " "){
+    let theBall = new Ball(mouseX, mouseY);
+    ballArray.push(theBall);
+  }
 }
 
 class Ball{
@@ -55,6 +65,14 @@ class Ball{
     }
     if (this.y - this.radius <= 0 || this.y + this.radius >= height){
       this.dy *= -1;
+    }
+  }
+  isPointInBall(x, y){
+    if(dist(x, y, this.x, this.y) < this.radius){
+      return true;
+    }
+    else{
+      return false;
     }
   }
 }

@@ -169,50 +169,10 @@ class Player{
     if (this.playerHealth <= 0){
       grid[this.playerY][this.playerX] = 0;
     }
-  }
-  shoot(){
-    if(keyPressed){
-      if(key === "j"){
-        grid[this.playerY][this.playerX-1] = 2;
-        console.log("left");
-      }
-    }
-  }
-}
-
-class Bullet{
-  constructor(bulletX, bulletY, radius, dx, dy, image){
-    this.bulletX = bulletX;
-    this.bulletY = bulletY;
-    this.radius = radius;
-    this.dx = dx;
-    this.dy = dy;
-    this.image = image;
-  }
-  displayBullet(){
-    grid[this.bulletY][this.bulletX] = 2;
-  }
-  moveLeft(){
-    this.bulletX -= this.dx;
-  }
-  moveRight(){
-    this.bulletY += this.dx;
-  }
-  moveUp(){
-    this.bulletY -= this.dy;
-  }
-  moveDown(){
-    this.bulletY += this.dy;
-  }
-  bulletMove(newX, newY){
-    if (newX >= 0 && newY >= 0 && newX < gridSize && newY < gridSize){
-  
-      if (grid[newY][newX] === 0){
-  
-        grid[this.bulletY][this.bulletX] = 0;
-        this.bulletX = newX;
-        this.bulletY = newY;
-        grid[this.bulletY][this.bulletX] = 2;
+  } 
+  keyPressed(){
+    if(grid[this.playerY-1][this.playerX] === 2 || grid[this.playerY+1][this.playerX] === 2 || grid[this.playerY][this.playerX-1] === 2 || grid[this.playerY][this.playerX+1] === 2){
+      if(keyCode === 69){
       }
     }
   }
