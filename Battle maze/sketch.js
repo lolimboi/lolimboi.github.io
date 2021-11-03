@@ -36,7 +36,7 @@ function draw() {
   player1.playerMove();
   player1.movement();
   player1.death();
-  player1.shoot();
+  player1.keyPressed();
   harm();
 }
 
@@ -91,11 +91,18 @@ function mousePressed(){
 }
 
 function keyPressed(){
-  if (key === "e"){
+  if (key === "o"){
     grid = createEmpty2DArray(gridSize, gridSize);
   }
   if (key === "r"){
     grid = createRandom2DArray(gridSize, gridSize);
+  }
+  if(key === "n"){
+  let cellX = Math.floor(mouseX/cellWidth);
+  let cellY = Math.floor(mouseY/cellHeight);
+
+  if (grid[cellY][cellX] === 0 || grid[cellY][cellX] === 1){
+    grid[cellY][cellX] = 2;
   }
 }
 
@@ -171,8 +178,35 @@ class Player{
     }
   } 
   keyPressed(){
-    if(grid[this.playerY-1][this.playerX] === 2 || grid[this.playerY+1][this.playerX] === 2 || grid[this.playerY][this.playerX-1] === 2 || grid[this.playerY][this.playerX+1] === 2){
-      if(keyCode === 69){
+    if (this.playerX-1 >= 0 && this.playerY-1 >= 0 && this.playerX+1 < gridSize && this.playerY+1 < gridSize) {
+      if(grid[this.playerY-1][this.playerX] === 2){
+        if(keyCode === 69){
+          if (keyCode === LEFT_ARROW){
+            grid[this.playerY][this.playerX-1] = 0;
+          }
+        }
+      }
+
+      if (grid[this.playerY+1][this.playerX] === 2){
+        if(keyCode === 69){
+          if(keyCode === RIGHT_ARROW){
+            grid[this.playerY][this.playerX+1] = 0;
+          }
+        }
+      }
+      if (grid[this.playerY][this.playerX-1] === 2){
+        if(keyCode === 69){
+          if(keyCode === UP_ARROW){
+            grid[this.playerY-1][this.playerX] = 0;
+          }
+        }
+      }
+      if (grid[this.playerY][this.playerX+1] === 2){
+        if(keyCode === 69){
+          if(keyCode === DOWN_ARROW){
+            grid[this.playerY+1][this.playerX+1] = 0;
+          }
+        }
       }
     }
   }
