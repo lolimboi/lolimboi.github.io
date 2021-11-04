@@ -98,30 +98,33 @@ function keyPressed(){
     grid = createRandom2DArray(gridSize, gridSize);
   }
   if(key === "n"){
-  let cellX = Math.floor(mouseX/cellWidth);
-  let cellY = Math.floor(mouseY/cellHeight);
+    let cellX = Math.floor(mouseX/cellWidth);
+    let cellY = Math.floor(mouseY/cellHeight);
 
-  if (grid[cellY][cellX] === 0 || grid[cellY][cellX] === 1){
-    grid[cellY][cellX] = 2;
-  }
-}
-
-function createRandom2DArray(rows, cols){
-  let board =[];
-  for (let y=0; y<rows; y++){
-    board.push([]);
-    for(let x = 0; x<cols; x++){
-      if (random(100) < 50){
-        board[y].push(0);
-      }
-      else {
-        board[y].push(1);
-      }
+    if (grid[cellY][cellX] === 0 || grid[cellY][cellX] === 1){
+      grid[cellY][cellX] = 2;
+    }
+    else if (grid[cellY][cellX] === 2){
+      grid[cellY][cellX] = 0;
     }
   }
-  return board;
-}
 
+  function createRandom2DArray(rows, cols){
+    let board =[];
+    for (let y=0; y<rows; y++){
+      board.push([]);
+      for(let x = 0; x<cols; x++){
+        if (random(100) < 50){
+          board[y].push(0);
+        }
+        else {
+          board[y].push(1);
+        }
+      }
+    }
+    return board;
+  }
+}
 function harm(){
 
   if(hurt){
@@ -132,6 +135,7 @@ function harm(){
     console.log(millis());
   }
 }
+
 class Player{
   constructor(playerX, playerY, playerHealth){
     this.playerX = playerX;
@@ -179,33 +183,25 @@ class Player{
   } 
   keyPressed(){
     if (this.playerX-1 >= 0 && this.playerY-1 >= 0 && this.playerX+1 < gridSize && this.playerY+1 < gridSize) {
-      if(grid[this.playerY-1][this.playerX] === 2){
-        if(keyCode === 69){
-          if (keyCode === LEFT_ARROW){
-            grid[this.playerY][this.playerX-1] = 0;
-          }
+      if(grid[this.playerY][this.playerX-1] === 2){
+        if (keyCode === 37){
+          grid[this.playerY][this.playerX-1] = 0;
         }
       }
 
-      if (grid[this.playerY+1][this.playerX] === 2){
-        if(keyCode === 69){
-          if(keyCode === RIGHT_ARROW){
-            grid[this.playerY][this.playerX+1] = 0;
-          }
-        }
-      }
-      if (grid[this.playerY][this.playerX-1] === 2){
-        if(keyCode === 69){
-          if(keyCode === UP_ARROW){
-            grid[this.playerY-1][this.playerX] = 0;
-          }
-        }
-      }
       if (grid[this.playerY][this.playerX+1] === 2){
-        if(keyCode === 69){
-          if(keyCode === DOWN_ARROW){
-            grid[this.playerY+1][this.playerX+1] = 0;
-          }
+        if(keyCode === 39){
+          grid[this.playerY][this.playerX+1] = 0;
+        }
+      }
+      if (grid[this.playerY-1][this.playerX] === 2){
+        if(keyCode === 38){
+          grid[this.playerY-1][this.playerX] = 0;
+        }
+      }
+      if (grid[this.playerY+1][this.playerX] === 2){
+        if(keyCode === 40){
+          grid[this.playerY+1][this.playerX] = 0;
         }
       }
     }
