@@ -41,7 +41,7 @@ class Particle{
     this.x = x;
     this.y = y;
     this.size = random(3, 7);
-    this.alpha = 255;
+    this.alpha = 300;
     this.theColour = color(random(255), random(255), random(255), this.alpha);
     this.dx = random(-5, 5);
     this.dy = random(-5, 5);
@@ -53,7 +53,7 @@ class Particle{
   }
 
   move(){
-    this.alpha -= 2;
+    this.alpha -= 10;
     this.theColour = color(random(255), random(255), random(255), this.alpha);
     this.x += this.dx;
     this.y += this.dy;
