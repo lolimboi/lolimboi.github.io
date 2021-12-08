@@ -7,7 +7,7 @@
 
 
 let rectHeights = [];
-let numberOfRects = 1000;
+let numberOfRects = 100;
 
 
 function setup() {
@@ -26,7 +26,7 @@ function generateTerrain() {
     let theHeight = noise(time) * height;
     rectHeights.push(theHeight);
 
-    time += 0.001;
+    time += 0.01;
   }
 }
 
@@ -35,8 +35,8 @@ function displayTerrain() {
   for(let i=0; i<rectHeights.length; i++){
     let theHeight = rectHeights[i];
     fill(0);
-    //rect(theWidth*i, height, 1, -theHeight);
+    rect(theWidth*i, height, theWidth, -theHeight);
     //circle(theWidth*i, height, -theHeight);
-    triangle(theWidth*i, height, theWidth*i, height, 1, -theHeight);
+    //triangle(theWidth*i, height, theWidth*i, height, 1, -theHeight);
   }
 }
